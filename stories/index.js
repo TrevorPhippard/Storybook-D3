@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { action,actions, configureActions,withActions  } from '@storybook/addon-actions';
+import { action } from '@storybook/addon-actions';
 import { ThemeProvider } from 'styled-components';
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import {defaultTheme,secondTheme} from './../src/ui/theme';
@@ -33,27 +33,50 @@ import Navbar from "../src/components/layout/Navbar";
 import SignIn from "../src/components/auth/SignIn";
 import SignUp from "../src/components/auth/SignUp";
 
-var pie = <Pie x={150}
-                y={150} 
-                innerRadius={((300*.9)/2) * 0.35} 
-                outerRadius={((300*.5)/2)} 
-                cornerRadius={2} 
-                padAngle={0.01}/>
+/* wrappers */
 
-var clkButton = <Button id="one" displayValue={3}  onButtonPress={action('clicked', 'PLUS/MINUS')}/>
-var clkButtonCont = <PiCntls/>
+const providerCont = getStory => <Provider store={store}>{ getStory() }</Provider>
+const browserCont = getStory => <BrowserRouter>{ getStory() }</BrowserRouter>
 
+
+/* components */
+
+const clkButton = <Button id="one" displayValue={3}  onButtonPress={action('clicked', 'PLUS/MINUS')}/>
+const clkButtonCont = <PiCntls/>
+const pie = <Pie x={150}
+               y={150} 
+               innerRadius={((300*.9)/2) * 0.35} 
+               outerRadius={((300*.5)/2)} 
+               cornerRadius={2} 
+               padAngle={0.01}/>
+
+
+/* theme selector */  
+
+const testThemes = {
+  defaultTheme: defaultTheme,
+  secondTheme: secondTheme,
+};
+
+/** ------------------------------------------------- *
+     @desc stories 
+/* -------------------------------------------------- */     
 
 storiesOf('Pie Chart', module)
-.addDecorator(withKnobs)
-  .addDecorator(getStory => <Provider store={store}>{ getStory() }</Provider>)
+  .addDecorator(withKnobs)
+  .addDecorator(providerCont)
   .add('Pie', () => pie )
-  .add('Pie + Button', () => <div> {pie} {clkButtonCont}</div> )
+  .add('clkButton', () =>  {
+
+    const chosenTheme = select('themes', testThemes, defaultTheme);
+
+    return (
+      <ThemeProvider theme={chosenTheme}>
+           {clkButtonCont}
+      </ThemeProvider>
+    );
+  } )
   .add('Theme colours: Knobs', () => {
-    const testThemes = {
-      defaultTheme: defaultTheme,
-      secondTheme: secondTheme,
-    };
 
     const chosenTheme = select('themes', testThemes, defaultTheme);
 
@@ -67,13 +90,9 @@ storiesOf('Pie Chart', module)
 
 storiesOf('Navigation', module)
   .addDecorator(withKnobs)
-  .addDecorator(getStory => <Provider store={store}>{ getStory() }</Provider>)
-  .addDecorator(getStory => <BrowserRouter>{ getStory() }</BrowserRouter>)
+  .addDecorator(providerCont)
+  .addDecorator(browserCont)
   .add('Theme colours: Knobs', () => {
-    const testThemes = {
-      defaultTheme: defaultTheme,
-      secondTheme: secondTheme,
-    };
 
     const chosenTheme = select('themes', testThemes, defaultTheme);
 

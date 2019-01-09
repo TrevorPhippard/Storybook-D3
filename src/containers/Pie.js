@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import * as d3 from "d3";
-import Slice from '../components/Slice'
-
-import { connect } from 'react-redux'
+import Slice from '../components/Slice';
+import { connect } from 'react-redux';
 import Theme from './../ui/theme';
 
 
@@ -14,11 +13,8 @@ class Pie extends Component {
     }
   
     renderSlice(value, i) {
-      let {innerRadius, outerRadius, cornerRadius, padAngle} = this.props;
-
-     var values= ['bagels',
-                  'coffee',
-                  'cheese']
+      const {innerRadius, outerRadius, cornerRadius, padAngle} = this.props;
+      const values = [ 'bagels', 'coffee', 'cheese'];
 
       return (
         <Slice key={i}
@@ -33,14 +29,14 @@ class Pie extends Component {
     }
 
     render() {
-      let {x, y, counter1, counter2, counter3,} = this.props;
-      let data=[
+      const {x, y, counter1, counter2, counter3,} = this.props;
+      const data=[
         counter1.current,
         counter2.current,
         counter3.current,
       ];
       
-      let pie = d3.pie();
+      const pie = d3.pie();
 
       return (
         <svg width={`${x*2}px`} height={`${y*2}px`}>
@@ -51,8 +47,7 @@ class Pie extends Component {
       );
     }
   }
-
-
+  
 export default connect(
   function mapStateToProps(state, ownProps) {
     return state

@@ -11,7 +11,7 @@ class BarChartContainer extends Component {
 
     componentDidMount() {
         d3.csv("/data/Example1.csv").then((nd) => {
-            var result = nd.map(a => Number(a.Sales));
+            const result = nd.map(a => Number(a.Sales));
             this.setState({ data: result });
         });
     }

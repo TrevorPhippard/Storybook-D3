@@ -23,7 +23,7 @@ class Slice extends Component {
   // }
 
     render() {
-      let { value,
+      const { value,
             label,
             fill,
             innerRadius = 0,
@@ -33,11 +33,11 @@ class Slice extends Component {
             ...props
       } = this.props;
 
-      var translate = function(x, y) {
+      const translate = function(x, y) {
         return `translate(${x}, ${y})`;
       }
       
-      let arc = d3.arc()
+      const arc = d3.arc()
                   .innerRadius(innerRadius)
                   .outerRadius(outerRadius)
                   .cornerRadius(cornerRadius)

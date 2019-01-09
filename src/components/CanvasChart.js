@@ -7,7 +7,7 @@ class CanvasChart extends Component {
     xAxis(x,height,context) {
 
           //centering label in bar 
-     let xBan = x.bandwidth() / 2;
+     const xBan = x.bandwidth() / 2;
      
       context.textAlign = "center";
       context.textBaseline = "top";
@@ -25,7 +25,7 @@ class CanvasChart extends Component {
     }
     
     yAxis(y,context) {
-      let yTickCount = 10,
+      const yTickCount = 10,
           yTickFormat = y.tickFormat(yTickCount, "%");
   
       //setting text
@@ -63,26 +63,26 @@ class CanvasChart extends Component {
       context.fillStyle = "steelblue";
 
       data.forEach((d) => {
-        context.fillRect(x(d.letter), y(d.frequency), x.bandwidth(), height - y(d.frequency));
+        context.fillRect(x(d.constter), y(d.frequency), x.bandwidth(), height - y(d.frequency));
       });
     }
 
     componentDidMount() {
 
-      let data = this.props.data
-      let canvas = this.canvas
-      let context = canvas.getContext('2d')
+      const data = this.props.data
+      const canvas = this.canvas
+      const context = canvas.getContext('2d')
   
-      let margin = {top: 20, right: 20, bottom: 30, left: 40},
+      const margin = {top: 20, right: 20, bottom: 30, left: 40},
           width = canvas.width - margin.left - margin.right,
           height = canvas.height - margin.top - margin.bottom;
   
-      let x = d3.scaleBand()
+      const x = d3.scaleBand()
                 .rangeRound([0, width])
                 .padding(0.1)
-                .domain(data.map((d) => d.letter));
+                .domain(data.map((d) => d.constter));
 
-      let y = d3.scaleLinear()
+      const y = d3.scaleLinear()
                 .rangeRound([height, 0])
                 .domain([0, d3.max(data, (d) => d.frequency)]);
 
