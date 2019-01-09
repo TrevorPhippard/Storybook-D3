@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import * as d3 from "d3";
 import styled from "styled-components";
 
@@ -8,7 +8,7 @@ const Text = styled.text`
     font-size: 10px;
 `;
 
-class Axis extends React.Component {
+class Axis extends Component {
   constructor() {
     super();
     this.gRef = React.createRef();
@@ -27,7 +27,7 @@ class Axis extends React.Component {
 
     d3.select(this.gRef.current).call(d3[`axis${type}`](this.props.scale));
   }
-  a;
+
   get labelPos() {
     const { type, scale } = this.props;
 
@@ -40,6 +40,8 @@ class Axis extends React.Component {
         return { x: scale.range()[1] + 25, y: 25 };
       case "Left":
         return { x: -25, y: 0 };
+      default: 
+        return 0
     }
   }
 

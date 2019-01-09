@@ -3,19 +3,18 @@ import * as d3 from "d3";
 import Slice from '../components/Slice'
 
 import { connect } from 'react-redux'
-
+import Theme from './../ui/theme';
 
 
 class Pie extends Component {
     constructor(props) {
       super(props);
-      this.colorScale = d3.scaleOrdinal(d3.schemeGreens[4]);
+      this.colorScale = d3.scaleOrdinal(d3[Theme.pie][3]);
       this.renderSlice = this.renderSlice.bind(this);
     }
   
     renderSlice(value, i) {
       let {innerRadius, outerRadius, cornerRadius, padAngle} = this.props;
-      console.log(this.props)
 
      var values= ['bagels',
                   'coffee',
@@ -42,11 +41,13 @@ class Pie extends Component {
       ];
       
       let pie = d3.pie();
-      
+
       return (
+        <svg width={`${x*2}px`} height={`${y*2}px`}>
         <g transform={`translate(${x}, ${y})`}>
           {pie(data).map(this.renderSlice)}
         </g>
+        </svg>
       );
     }
   }

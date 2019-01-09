@@ -1,5 +1,4 @@
 import { ACTION_TYPE_DO_STUFF } from '../actions/buttonOps'
-import { combineReducers } from 'redux'
   
   export const INITIAL_STATE = {
     memory: 0,
@@ -8,9 +7,10 @@ import { combineReducers } from 'redux'
   }
   
  const counter = (num)=>(state = INITIAL_STATE, action) =>{ 
+   
       const { type, payload, id } = action
-    
-      var incr = undefined === payload  ? 0 : payload.value
+      const incr = undefined === payload  ? 0 : payload.value
+
        if(num === id ){
           switch (type) {
             case ACTION_TYPE_DO_STUFF:
@@ -25,8 +25,4 @@ import { combineReducers } from 'redux'
         return state
   }
 
-export default combineReducers({
-  counter1: counter('bagels'), 
-  counter2: counter('coffee'),
-  counter3: counter('cheese')
-})
+export default counter

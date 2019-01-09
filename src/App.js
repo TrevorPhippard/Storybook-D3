@@ -1,36 +1,65 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Provider } from "react-redux";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { ThemeProvider } from "styled-components";
 
 import store from "./store";
-import ButtonContainer from "./containers/ButtonContainer";
+import Theme from "./ui/theme";
+import data from "./mock_data/data";
+
+import Navbar from "./components/layout/Navbar";
+import SignIn from "./components/auth/SignIn";
+import SignUp from "./components/auth/SignUp";
+
+import ErrorBoundary from "./containers/ErrorBoundary";
+import Animation from "./containers/Animation";
+import PiCntls from "./containers/PiCntls";
 import Pie from "./containers/Pie";
+import CanvasChart from "./components/CanvasChart";
+
+function Container(props) {
+  return (
+    <Provider store={store}>
+      <BrowserRouter>
+        <ThemeProvider theme={Theme}>
+          <Fragment>{props.children}</Fragment>
+        </ThemeProvider>
+      </BrowserRouter>
+    </Provider>
+  );
+}
+
+function Navigation(props) {
+  return (
+    <Fragment>
+      <Navbar />
+      <Switch>
+        <Route path="/signin" component={SignIn} />
+        <Route path="/signup" component={SignUp} />
+      </Switch>
+    </Fragment>
+  );
+}
 
 class App extends Component {
-
   render() {
-    let x = 300;
-    let y = 300;
-    let minViewportSize = Math.min(x, y);
-    let radius = (minViewportSize * 0.9) / 2;
-
-    console.log(this.props)
-
     return (
-      <Provider store={store}>
-        <div className="appContainer">
-          <svg width="300px" height="300px">
-            <Pie
-              x={x/2}
-              y={y/2}
-              innerRadius={radius * 0.35}
-              outerRadius={radius}
-              cornerRadius={2}
-              padAngle={0.01}
-            />
-          </svg>
-          <ButtonContainer />
-        </div>
-      </Provider>
+      <Container>
+       <Navigation/>
+        <ErrorBoundary>
+        <Pie
+            x={150}
+            y={150}
+            innerRadius={((300 * 0.9) / 2) * 0.35}
+            outerRadius={(300 * 0.5) / 2}
+            cornerRadius={2}
+            padAngle={0.01}
+          />
+          <PiCntls /> 
+          <Animation />
+          <CanvasChart width={500} height={300} data={data} />
+        </ErrorBoundary>
+      </Container>
     );
   }
 }
