@@ -14,7 +14,6 @@
     "@storybook/core-events": "^4.1.4",
     "@storybook/node-logger": "^4.1.4",
     "@storybook/react": "^4.1.4",
-    "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.5",
     "cors": "^2.8.4",
     "cross-env": "^5.2.0",

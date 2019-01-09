@@ -3,8 +3,6 @@ import * as d3 from 'd3';
 import styled from 'styled-components'
 import classnames from 'classnames'
 
-
-
 function sliceTxtStle(props){
   if(props.theme.text){ return props.theme.text }
 }

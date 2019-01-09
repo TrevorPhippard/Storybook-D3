@@ -3,22 +3,47 @@ import { Link } from 'react-router-dom'
 import SignedInLinks from './SignedInLinks'
 import SignedOutLinks from './SignedOutLinks'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
+import classnames from 'classnames'
+
+function bgColour(props){
+  return props.theme.primary 
+}
 
 const Navbar = (props) => {
   const { auth, profile } = props;
-  console.log(auth);
   const links = auth.uid ? <SignedInLinks profile={profile} /> 
                          : <SignedOutLinks />;
-
   return (
-    <nav className="nav-wrapper grey darken-3">
-      <div className="container">
-        <Link to='/' className="brand-logo">Home</Link>
+    <nav className ={classnames(props.className)}>
         {links}
-      </div>
     </nav>
   )
 }
+
+var styledNav = styled(Navbar)`
+
+background: #ccc;
+
+a{
+  text-decoration: none;
+}
+li {
+  font-size: 1rem;
+  display: inline-block;
+  padding: 1rem;
+  transition: .3s background;
+  color: #f00;
+
+  &:hover {
+    background: #dff;
+    color: $linkhighlight;
+  }
+}
+  
+`
+
+
 
 const mapStateToProps = (state) => {
   // console.log(state);
@@ -28,4 +53,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(Navbar)
+export default connect(mapStateToProps)(styledNav)
