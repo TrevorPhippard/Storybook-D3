@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import * as d3 from "d3";
-import Slice from '../components/Slice';
+import Slice from '../components/Infographics/Slice';
 import { connect } from 'react-redux';
 import Theme from './../ui/theme';
+import PiCntls from "./PiCntls";
 
 
 class Pie extends Component {
@@ -39,11 +40,15 @@ class Pie extends Component {
       const pie = d3.pie();
 
       return (
+        <div>
+        <h1>D3 to State</h1>
         <svg width={`${x*2}px`} height={`${y*2}px`}>
         <g transform={`translate(${x}, ${y})`}>
           {pie(data).map(this.renderSlice)}
         </g>
         </svg>
+        <PiCntls /> 
+        </div>
       );
     }
   }

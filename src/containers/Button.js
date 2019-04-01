@@ -7,7 +7,15 @@ import ThemedBtnHeader from '../components/ThemedBtnHeader'
 const Container = styled.div`
   padding: 5px;
   display: inline-block;
+  float:left;
   margin-bottom:20px;
+
+  @supports (display: -webkit-flex) or
+  (display: -moz-flex) or
+  (display: flex) {
+    flex: 0 100%;
+  }
+
 `
 
 export default class Button extends Component {
@@ -20,7 +28,6 @@ export default class Button extends Component {
   render() {
     const  triggerHandleButtonPress  =  this.triggerHandleButtonPress.bind(this) 
     const { displayValue, id } = this.props
-
     return (
           <div  onClick={triggerHandleButtonPress}>
                   <Container>

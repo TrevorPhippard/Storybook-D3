@@ -4,6 +4,7 @@ import { action } from '@storybook/addon-actions';
 import { ThemeProvider } from 'styled-components';
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import {defaultTheme,secondTheme} from './../src/ui/theme';
+import imageFile from './../public/header.png';
 
 import {
   withKnobs,
@@ -32,6 +33,10 @@ import Pie from "../src/containers/Pie";
 import Navbar from "../src/components/layout/Navbar";
 import SignIn from "../src/components/auth/SignIn";
 import SignUp from "../src/components/auth/SignUp";
+
+
+import MastHeader from "../src/components/MastHeader";
+
 
 /* wrappers */
 
@@ -65,24 +70,13 @@ const testThemes = {
 storiesOf('Pie Chart', module)
   .addDecorator(withKnobs)
   .addDecorator(providerCont)
-  .add('Pie', () => pie )
-  .add('clkButton', () =>  {
-
-    const chosenTheme = select('themes', testThemes, defaultTheme);
-
-    return (
-      <ThemeProvider theme={chosenTheme}>
-           {clkButtonCont}
-      </ThemeProvider>
-    );
-  } )
   .add('Theme colours: Knobs', () => {
 
     const chosenTheme = select('themes', testThemes, defaultTheme);
 
     return (
       <ThemeProvider theme={chosenTheme}>
-            <div> {pie} {clkButtonCont}</div> 
+            <div> {pie} </div> 
       </ThemeProvider>
     );
   })
@@ -104,6 +98,24 @@ storiesOf('Navigation', module)
                   <Route path="/signin" component={SignIn} />
                   <Route path="/signup" component={SignUp} />
                 </Switch>
+          </div>
+      </ThemeProvider>
+    );
+  })
+
+
+
+  storiesOf('MastHeader', module)
+  .addDecorator(withKnobs)
+  .addDecorator(providerCont)
+  .addDecorator(browserCont)
+  .add('Theme colours: Knobs', () => {
+    const chosenTheme = select('themes', testThemes, defaultTheme);
+
+    return (
+      <ThemeProvider theme={chosenTheme}>
+          <div>
+            <MastHeader title="title" copy="copy" src={ imageFile }/>
           </div>
       </ThemeProvider>
     );

@@ -24,7 +24,7 @@ class SignUp extends Component {
     if (auth.uid) return <Redirect to='/' /> 
     return (
       <div>
-        <form  onSubmit={this.handleSubmit}>
+        <form className="dropDownForm" onSubmit={this.handleSubmit}>
           <h5>Sign Up</h5>
           <div>
             <label htmlFor="email">Email</label>
