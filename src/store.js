@@ -1,16 +1,27 @@
-import { createStore, applyMiddleware, compose } from 'redux'
-import reducer from './reducers'
+  
+import { applyMiddleware, createStore, compose } from 'redux'
 import thunk from 'redux-thunk'
-import { reduxFirestore, getFirestore } from 'redux-firestore';
-import { reactReduxFirebase, getFirebase } from 'react-redux-firebase';
-import fbConfig from './config/fbConfig'
+import rootReducer from './reducers'
+import { getFirebase } from 'react-redux-firebase'
 
-export default createStore(
-  reducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-  compose(
-    applyMiddleware(thunk.withExtraArgument({getFirebase, getFirestore})),
-    reactReduxFirebase(fbConfig, {userProfile: 'users', useFirestoreForProfile: true, attachAuthIsReady: true}),
-    reduxFirestore(fbConfig), 
-  )
-)
+export default function configureStore(initialState, history) {
+  const middleware = [thunk.withExtraArgument({ getFirebase })]
+  const createStoreWithMiddleware = compose(
+    applyMiddleware(...middleware),
+    typeof window === 'object' &&
+      typeof window.devToolsExtension !== 'undefined'
+      ? () => window.__REDUX_DEVTOOLS_EXTENSION__
+      : f => f
+  )(createStore)
+  const store = createStoreWithMiddleware(rootReducer)
+
+  if (module.hot) {
+    // Enable Webpack hot module replacement for reducers
+    module.hot.accept('./reducers', () => {
+      const nextRootReducer = require('./reducers')
+      store.replaceReducer(nextRootReducer)
+    })
+  }
+
+  return store
+}

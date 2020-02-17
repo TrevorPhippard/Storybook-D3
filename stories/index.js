@@ -8,29 +8,28 @@ import imageFile from './../public/header.png';
 
 import {
   withKnobs,
-  withKnobsOptions,
-  text,
-  number,
-  boolean,
-  color,
+  // withKnobsOptions,
+  // text,
+  // number,
+  // boolean,
+  // color,
   select,
-  radios,
-  array,
-  date,
-  button,
-  object,
-  files,
+  // radios,
+  // array,
+  // date,
+  // button,
+  // object,
+  // files,
 } from '@storybook/addon-knobs';
 
 import { Provider } from 'react-redux';
-import store from "../src/store";
 
 import Button from '../src/containers/Button';
 import PiCntls from '../src/containers/PiCntls';
 
 import Pie from "../src/containers/Pie";
 
-import Navbar from "../src/components/layout/Navbar";
+import Navbar from "../src/components/NavBar/Navbar";
 import SignIn from "../src/components/auth/SignIn";
 import SignUp from "../src/components/auth/SignUp";
 
@@ -38,9 +37,39 @@ import SignUp from "../src/components/auth/SignUp";
 import MastHeader from "../src/components/MastHeader";
 
 
+
+import firebase from 'firebase/app'
+import 'firebase/auth'
+import 'firebase/database'
+import 'firebase/firestore' // make sure you add this for firestore
+import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
+import { createFirestoreInstance } from 'redux-firestore'
+
+import configureStore from '../src/store'
+import { firebase as fbConfig, rrfConfig } from '../src/config'
+
+
+const initialState = window && window.__INITIAL_STATE__ // set initial state here
+const store = configureStore(initialState)
+// Initialize Firebase instance
+firebase.initializeApp(fbConfig)
+
+
 /* wrappers */
 
-const providerCont = getStory => <Provider store={store}>{ getStory() }</Provider>
+const providerCont = getStory => 
+<Provider store={store}>
+<ReactReduxFirebaseProvider
+firebase={firebase}
+config={rrfConfig}
+dispatch={store.dispatch}
+createFirestoreInstance={createFirestoreInstance}
+>{ 
+  getStory()
+  }</ReactReduxFirebaseProvider>
+
+</Provider>
+
 const browserCont = getStory => <BrowserRouter>{ getStory() }</BrowserRouter>
 
 

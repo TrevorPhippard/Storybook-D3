@@ -3,7 +3,6 @@ import { Provider } from "react-redux";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 
-import store from "./store";
 import Theme from "./ui/theme";
 import data from "./mock_data/data";
 
@@ -26,14 +25,37 @@ import Footer from "./components/Footer";
 import MastHeader from "./components/MastHeader";
 import TitleHeader from "./components/TitleHeader";
 
+
+import firebase from 'firebase/app'
+import 'firebase/auth'
+import 'firebase/database'
+import 'firebase/firestore' // make sure you add this for firestore
+import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
+import { createFirestoreInstance } from 'redux-firestore'
+
+import configureStore from './store'
+import { firebase as fbConfig, rrfConfig } from './config'
+
+
+const initialState = window && window.__INITIAL_STATE__ // set initial state here
+const store = configureStore(initialState)
+// Initialize Firebase instance
+firebase.initializeApp(fbConfig)
+
 function Container(props) {
   return (
     <Provider store={store}>
+      <ReactReduxFirebaseProvider
+        firebase={firebase}
+        config={rrfConfig}
+        dispatch={store.dispatch}
+        createFirestoreInstance={createFirestoreInstance}>
       <BrowserRouter>
         <ThemeProvider theme={Theme}>
           <Fragment>{props.children}</Fragment>
         </ThemeProvider>
       </BrowserRouter>
+      </ReactReduxFirebaseProvider>
     </Provider>
   );
 }

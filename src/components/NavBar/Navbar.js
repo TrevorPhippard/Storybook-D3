@@ -1,14 +1,14 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import SignedInLinks from './SignedInLinks'
 import SignedOutLinks from './SignedOutLinks'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import classnames from 'classnames'
 
-function bgColour(props){
-  return props.theme.primary 
-}
+// function bgColour(props){
+//   return props.theme.primary 
+// }
 
 const Navbar = (props) => {
   const { auth, profile } = props;
